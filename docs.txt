@@ -1,0 +1,53 @@
+1. App.js (Core / State manager)
+
+Отвечает только за:
+
+загрузку данных (loadTodoItems)
+
+хранение состояния (allTodoGroupByDate)
+
+вызовы функций рендера (renderAllTodo, addTaskToDOM, removeTaskFromDOM)
+
+CRUD на уровне данных (вызывать createTodoItem, deleteTodoItem, changeTextTodo и обновлять DOM через отдельные функции)
+
+
+
+
+2. render.js (UI / DOM)
+
+Содержит только функции для работы с DOM:
+
+renderAllTodo(allTodoGroupByDate)
+
+addTaskToDOM(item)
+
+removeTaskFromDOM(taskId)
+
+buildTaskElement(item)
+
+Эти функции не должны знать ничего про API или контекстное меню, они просто создают / обновляют / удаляют элементы в DOM.
+
+
+
+
+
+3. frontend.js (UI-логика)
+
+Здесь:
+
+слушатели событий (клики по кнопкам, контекстное меню, input)
+
+вызовы функций из App.js (чтобы CRUDить)
+
+вызовы из render.js (чтобы перерисовать DOM)
+
+анимации, открытие/закрытие блоков, классы .show, .done
+
+То есть frontend.js работает с пользователем и передаёт команды внутрь.
+
+
+
+
+4. request.js
+
+У тебя уже есть 👍 — только API-запросы: loadTodoItems, createTodoItem, deleteTodoItem, changeTextTodo, hundleDoneTodo.

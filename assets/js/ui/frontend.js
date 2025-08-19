@@ -5,7 +5,7 @@ import {
     changeTextTodo,
     deleteTodoItem,
     hundleDoneTodo,
-} from "./request.js";
+} from "../api/request.js";
 
 import { show, hide } from "./animation.js";
 

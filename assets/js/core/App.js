@@ -3,9 +3,9 @@ import {
     createTodoItem,
     changeTextTodo,
     deleteTodoItem,
-} from "./request.js";
+} from "../api/request.js";
 
-import { show, hide } from "./animation.js";
+import { show, hide } from "../ui/animation.js";
 import queryDateType from "./queryDateType.js";
 
 document.addEventListener("DOMContentLoaded", () => {
