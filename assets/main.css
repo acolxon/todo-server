@@ -1,0 +1,341 @@
+@import url("null.css");
+
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #121212;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    background: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80")
+        no-repeat center center fixed;
+    background-size: cover;
+    backdrop-filter: blur(0px);
+
+    /* анимация */
+    animation: bg-appear 1.5s ease forwards;
+}
+
+@keyframes bg-appear {
+    0% {
+        backdrop-filter: blur(0px); /* блюр изначально слабый */
+    }
+    100% {
+        backdrop-filter: blur(6px); /* блюр к финалу */
+    }
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2196f3;
+    font-weight: 600;
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    max-width: 600px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+}
+/* .task-block {
+    flex: 1;
+    margin-bottom: 40px;
+} */
+.form-block {
+    position: sticky;
+    bottom: 20px;
+    background: rgba(18, 18, 18, 0.9);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    /* margin-bottom: 1rem; */
+    transition: all 0.2s;
+}
+.task-form {
+    position: relative;
+}
+
+.task-input {
+    flex: 1;
+    width: 100%;
+    padding: 8px 40px 8px 20px;
+    border: none;
+    /* height: 40px; */
+    max-height: 40px;
+    font-size: 16px;
+    border-radius: 44px;
+    background: #1e1e1e;
+    color: #e0e0e0;
+    outline: none;
+    min-width: 200px;
+    resize: none;
+    overflow: hidden; /* скрывает горизонтальный скролл */
+    white-space: pre-wrap; /* переносит строки автоматически */
+    word-wrap: break-word; /* переносит длинные слова */
+}
+
+.task-form input::placeholder {
+    color: #aaa;
+}
+.input-ghost {
+    position: absolute;
+    width: 40px;
+    right: 0;
+    height: 40px;
+    border-radius: 44px;
+    overflow: hidden;
+}
+.button {
+    position: absolute;
+
+    width: 40px;
+    height: 40px;
+
+    right: -40px;
+    transform: rotate(-90deg) scale(0.5);
+
+    border: none;
+    background: #fff;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: right 0.4s ease-in, transform 0.4s ease-in;
+}
+
+.button.active-button {
+    right: 0;
+    transform: rotate(0deg) scale(1);
+}
+
+/* .task-form button:hover {
+    background: #1976d2;
+    transform: scale(1);
+} */
+
+.tasks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 20px;
+}
+.tasks ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    align-items: end;
+}
+
+.tasks ul h4 {
+    align-self: center;
+    margin-bottom: 25px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+}
+.task {
+    max-width: 70%;
+    cursor: pointer;
+    background: #1e1e1e;
+    padding: 14px 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    /* transition: transform 0.2s, background 0.3s; */
+    animation: fadeIn 0.4s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease, transform 0.5s ease;
+
+    flex-direction: column;
+    align-items: flex-end;
+
+    white-space: pre-wrap;
+    word-wrap: break-word; /* старый синтаксис */
+    overflow-wrap: anywhere;
+
+    left: 0;
+}
+.task.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.task.done {
+    position: relative;
+    left: -80%;
+    background: #2d4551;
+}
+.task.not_complete {
+    position: relative;
+    left: 0;
+    background: #1e1e1e;
+}
+.task.done p {
+    color: #b2b2b2;
+    font-size: 12px;
+}
+.task.show:hover {
+    transform: translateY(-2px);
+    background: rgb(19, 37, 46);
+}
+.task_change {
+    padding-left: 20px;
+    background: #2d4551;
+    color: #fff;
+    border-radius: 16px;
+    margin-bottom: 20px;
+
+    display: none;
+    justify-content: space-between;
+    max-height: 0; /* при скрытии */
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.task_change.show {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    max-height: 60px;
+}
+
+.redactor-text {
+    padding: 10px 0;
+}
+.task_change p {
+    color: #5db8e6;
+    font-size: 12px;
+}
+.redactor-text {
+    display: block;
+    max-width: 100%; /* ограничиваем ширину контейнера */
+    white-space: nowrap; /* запрещаем переносы */
+    overflow: hidden; /* скрываем лишний текст */
+    text-overflow: ellipsis;
+}
+.todo-edited {
+    font-size: 12px;
+    color: #999999;
+}
+#close-redactor {
+    width: 60px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 16px 16px 0;
+}
+#close-redactor:hover {
+    background: #426170;
+}
+
+#close-redactor img {
+    max-width: 20px;
+    width: 100%;
+    height: auto;
+}
+#context {
+    /* display: none; */
+    pointer-events: none;
+    opacity: 0;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.428);
+    z-index: 1000;
+
+    transition: opacity 0.3s, transform 0.3s;
+    /* transform: translateY(-10px); */
+}
+
+#context.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.context_block {
+    max-width: 200px;
+    width: 100%;
+    min-width: 50px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    /* padding: 10px 20px; */
+    /* gap: 20px; */
+    color: #fff;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+
+    overflow: hidden;
+
+    position: absolute;
+    top: 500px;
+    right: 50px;
+
+    transition: opacity 0.3s, transform 0.5s;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.context_block.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.context_block_btn {
+    cursor: pointer;
+    color: #999999;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    padding: 15px 25px;
+    background-color: #1e1e1e;
+    transition: all 0.3s ease-out;
+}
+/* .context_block_btn:first-child {
+    padding-top: 15px;
+}
+.context_block_btn:last-child {
+    padding-bottom: 15px;
+} */
+.context_block_btn:hover {
+    color: #d1d1d1;
+    background-color: #242424;
+}
+
+/* Анимация появления задач */
+/* @keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} */
+
+/* Адаптив */
+@media (max-width: 640px) {
+    .task-block {
+        padding: 0 20px;
+    }
+    .form-block {
+        bottom: 0;
+        min-height: 100px;
+        margin-bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}

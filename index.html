@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Задачи</title>
+        <link rel="stylesheet" href="assets/main.css" />
+        <script type="module" src="App.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="tasks" id="tasksList"></div>
+
+            <div class="form-block">
+                <div class="task_change">
+                    <div class="redactor-text">
+                        <p>Редактируемое сообщение</p>
+                        <span id="todo-text"></span>
+                    </div>
+                    <div id="close-redactor">
+                        <img
+                            src="assets/icon/close-btn.svg"
+                            alt="close button"
+                        />
+                    </div>
+                </div>
+                <form class="task-form" id="taskForm">
+                    <div class="input-ghost">
+                        <button type="submit" class="button" id="button">
+                            <img
+                                src="assets/icon/icob btn.png"
+                                alt="btn icon"
+                            />
+                        </button>
+                    </div>
+                    <textarea
+                        type="text"
+                        id="taskInput"
+                        class="task-input"
+                        placeholder="Напиши задачу..."
+                        required
+                    ></textarea>
+                </form>
+            </div>
+        </div>
+
+        <div id="context">
+            <div class="context_block">
+                <a href="#" id="change_todo" class="context_block_btn"
+                    >Изменить</a
+                >
+                <a href="#" id="delete_todo" class="context_block_btn"
+                    >Удалить</a
+                >
+            </div>
+        </div>
+        <script defer type="module" src="frontend.js"></script>
+    </body>
+</html>
