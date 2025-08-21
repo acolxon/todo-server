@@ -1,9 +1,4 @@
-// Доступные методы:
-// GET /api/todos - получить список дел, query параметр owner фильтрует по владельцу
-// POST /api/todos - создать дело, в теле запроса нужно передать объект { name: string, owner: string, done?: boolean }
-// GET /api/todos/{id} - получить дело по его ID
-// PATCH /api/todos/{id} - изменить дело с ID, в теле запроса нужно передать объект { name?: string, owner?: string, done?: boolean }
-// DELETE /api/todos/{id} - удалить дело по ID)
+// Здесь будут только функций для запросов на БД
 
 export async function loadTodoItems() {
     const response = await fetch(
@@ -35,7 +30,11 @@ export async function getTodoItem(id) {
     const response = await fetch(
         `https://68a0b61e6e38a02c58197a58.mockapi.io/api/todos/todo/${id}`
     );
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
     const data = await response.json();
+    return data;
 }
 
 export async function changeTextTodo(id, newText) {
@@ -53,7 +52,7 @@ export async function changeTextTodo(id, newText) {
     const data = await response.json();
     return data;
 }
-export async function hundleDoneTodo(id, isDone) {
+export async function changeDoneTodo(id, isDone) {
     const response = await fetch(
         `https://68a0b61e6e38a02c58197a58.mockapi.io/api/todos/todo/${id}`,
         {

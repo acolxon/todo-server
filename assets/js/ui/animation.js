@@ -1,21 +1,14 @@
-export function show(item, customDisplay = "block") {
-    item.style.display = customDisplay;
+// animation.js
+export function show(item) {
     requestAnimationFrame(() => {
         item.classList.add("show");
-        item.dataset.visible = "true"; // ставим флаг, что элемент показан
+        item.dataset.visible = "true";
     });
 }
 
 export function hide(item) {
-    if (item.dataset.visible !== "true") return; // выходим, если show не вызывался
+    if (item.dataset.visible !== "true") return;
 
     item.classList.remove("show");
-    item.addEventListener(
-        "transitionend",
-        () => {
-            item.style.display = "none";
-            item.dataset.visible = "false";
-        },
-        { once: true }
-    );
+    item.dataset.visible = "false";
 }

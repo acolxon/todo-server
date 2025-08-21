@@ -9,8 +9,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    background: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80")
-        no-repeat center center fixed;
+    background: url("../img/back-image.jpg") no-repeat center center fixed;
     background-size: cover;
     backdrop-filter: blur(0px);
 
@@ -44,7 +43,7 @@ h1 {
     display: flex;
     flex-direction: column;
 
-    position: relative;
+    /* position: relative; */
 }
 /* .task-block {
     flex: 1;
@@ -144,11 +143,13 @@ h1 {
     background-color: #1e1e1e;
 }
 .task {
+    position: relative;
     max-width: 70%;
     cursor: pointer;
     background: #1e1e1e;
     padding: 14px 12px;
     border-radius: 12px;
+    border-bottom-right-radius: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -157,7 +158,7 @@ h1 {
     animation: fadeIn 0.4s ease;
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.3s ease, transform 0.5s ease;
+    transition: all 0.3s ease, transform 0.5s ease, right 0.4s ease;
 
     flex-direction: column;
     align-items: flex-end;
@@ -165,21 +166,22 @@ h1 {
     white-space: pre-wrap;
     word-wrap: break-word; /* старый синтаксис */
     overflow-wrap: anywhere;
-
+    right: auto;
     left: 0;
 }
 .task.show {
     opacity: 1;
     transform: translateY(0);
 }
+
 .task.done {
-    position: relative;
-    left: -80%;
+    left: calc(-100% + var(--task-width));
     background: #2d4551;
+    border-radius: 12px;
+    border-bottom-left-radius: 0;
 }
 .task.not_complete {
-    position: relative;
-    left: 0;
+    right: 0;
     background: #1e1e1e;
 }
 .task.done p {
@@ -190,28 +192,38 @@ h1 {
     transform: translateY(-2px);
     background: rgb(19, 37, 46);
 }
+.task.delete-todo {
+    background: rgb(255, 57, 57);
+    left: -130%;
+}
 .task_change {
     padding-left: 20px;
     background: #2d4551;
     color: #fff;
     border-radius: 16px;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px;
 
-    display: none;
+    display: none; */
     justify-content: space-between;
     max-height: 0; /* при скрытии */
-    transition: opacity 0.3s ease, max-height 0.3s ease;
+    transition: opacity 0.3s ease, max-height 0.3s ease-in-out;
     opacity: 0;
-    pointer-events: none;
+    /* pointer-events: none; */
+    display: flex;
 }
 
 .task_change.show {
-    display: flex;
     opacity: 1;
-    pointer-events: auto;
-    max-height: 60px;
+    /* pointer-events: auto; */
+    max-height: 100px;
 }
-
+.plug {
+    min-height: 0px;
+    transition: min-height 1s ease;
+}
+.plug.show {
+    min-height: 20px;
+}
 .redactor-text {
     padding: 10px 0;
 }
@@ -237,6 +249,7 @@ h1 {
     align-items: center;
     justify-content: center;
     border-radius: 0 16px 16px 0;
+    cursor: pointer;
 }
 #close-redactor:hover {
     background: #426170;
@@ -248,52 +261,50 @@ h1 {
     height: auto;
 }
 #context {
-    /* display: none; */
     pointer-events: none;
     opacity: 0;
 
-    position: absolute;
+    position: fixed; /* лучше fixed, чтобы фон тянулся за экран */
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+
     background-color: rgba(0, 0, 0, 0.428);
     z-index: 1000;
 
-    transition: opacity 0.3s, transform 0.3s;
-    /* transform: translateY(-10px); */
+    transition: opacity 0.3s;
 }
 
 #context.show {
     opacity: 1;
     pointer-events: auto;
 }
+
 .context_block {
     max-width: 200px;
-    width: 100%;
-    min-width: 50px;
-    height: auto;
-
+    min-width: 120px;
     display: flex;
     flex-direction: column;
-    /* padding: 10px 20px; */
-    /* gap: 20px; */
+
     color: #fff;
     border-radius: 10px;
     background-color: #1e1e1e;
-
     overflow: hidden;
 
-    position: absolute;
-    top: 500px;
-    right: 50px;
-
-    transition: opacity 0.3s, transform 0.5s;
+    position: fixed;
     opacity: 0;
     transform: translateY(-10px);
+    pointer-events: none; /* скрытое меню не ловит клики */
+    transition: opacity 0.3s, transform 0.3s;
 }
+
 .context_block.show {
     opacity: 1;
+    transform: translateY(0);
     pointer-events: auto;
 }
+
 .context_block_btn {
     cursor: pointer;
     color: #999999;
@@ -313,6 +324,53 @@ h1 {
 .context_block_btn:hover {
     color: #d1d1d1;
     background-color: #242424;
+}
+.notifications_container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* расстояние между уведомлениями */
+}
+
+.notification {
+    position: relative; /* или вообще не указывать */
+    width: 400px;
+    max-width: 80%;
+    min-width: 150px;
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 16px;
+    background-color: #43b857;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+    animation: notifSlide 3s ease-in-out forwards;
+}
+
+@keyframes notifSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.9);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0) scale(1.05); /* лёгкий "бамп" */
+    }
+    40% {
+        transform: translateY(0) scale(1);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.95);
+    }
 }
 
 /* Анимация появления задач */

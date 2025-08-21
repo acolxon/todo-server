@@ -1,4 +1,4 @@
-export default function normalizeDate(createdAt) {
+export default function queryDateType(createdAt) {
     const date = new Date(createdAt); // сразу ISO строку парсим
     if (isNaN(date.getTime())) return "Неверная дата";
 

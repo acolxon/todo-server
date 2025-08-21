@@ -51,3 +51,83 @@ buildTaskElement(item)
 4. request.js
 
 У тебя уже есть 👍 — только API-запросы: loadTodoItems, createTodoItem, deleteTodoItem, changeTextTodo, hundleDoneTodo.
+
+
+
+
+
+
+🔹 Схема работы
+
+Пользователь (UI → frontend.js)
+
+Кликнул на кнопку Добавить.
+
+frontend.js отлавливает событие, создаёт CustomEvent("NewTask", { detail: text }).
+
+Логика (Core → App.js)
+
+Слушает document.addEventListener("NewTask", ...).
+
+Валидирует данные.
+
+Вызывает api.createTodoItem(text) для записи в БД.
+
+Обновляет state.js (например, allTodoGroupByDate).
+
+После успешного ответа вызывает render.addTaskToDOM(newTask).
+
+Отрисовка (UI → render.js)
+
+Получает задачу.
+
+Создаёт <li> с текстом и статусом.
+
+Вставляет в нужную группу (по дате).
+
+API (→ request.js)
+
+Общается с сервером через fetch.
+
+Возвращает результат в App.js.
+
+
+
+
+
+
+
+
+
+Так как работает изменение содержание задачи(todo)
+При нажатий правой кнопкой открывается контексное меню, логика прописана в contextMenu.js
+При нажатий кнопки Изменить создается событие changeTextTodoChecking, с целью проверить если такая вообще задача
+
+в App.js делается запрос на апи, если такая задача есть тогда создается новое событие todoReadyForEdit
+говоря для contextMenu.js что ответ вернулся можно и отрисовать элемент для редактирования текста
+в этот момент открывается режим редактирования, в stateTasks.js меняются переменные editMode на true
+как бы говоря что сейчас режим редактирования задачи
+
+дальше уже обработкой запроса на изменения начинается с frontend.js, т.к это уже не касается contextMenu.js
+в frontend.js при нажатий на кнопку "Отправить" проверяется состояние editMode, если true создается событие todoTextChanged
+
+в App.js обрабатывается это событие, уже меняя содержимое задачи, также очищает состояние editMode
+
+
+
+contextMenu.js -> (changeTextTodoChecking) создает событие*
+
+(changeTextTodoChecking)-> App.js обрабатывается*
+
+App.js -> (todoReadyForEdit) создает событие*
+
+(todoReadyForEdit) => {editMode = true} ставит режим редактирования
+
+frontend.js -> if(editMode) -> (todoTextChanged) создает событие*
+
+(todoTextChanged) -> App.js обрабатывается* 
+
+App.js -> {editMode = false}
+
+App.js -> render.js обновляет DOM элемент, чтобы не перезагружать страницу
+

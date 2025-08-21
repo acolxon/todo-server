@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Задачи</title>
         <link rel="stylesheet" href="assets/css/main.css" />
+        <link rel="icon" type="image/png" href="./assets/icon/favicon.png" />
+
         <script type="module" src="assets/js/core/App.js"></script>
     </head>
     <body>
@@ -24,9 +26,16 @@
                         />
                     </div>
                 </div>
+                <div class="plug"></div>
                 <form class="task-form" id="taskForm">
                     <div class="input-ghost">
-                        <button type="submit" class="button" id="button">
+                        <button type="submit" class="button" id="newTodo">
+                            <img
+                                src="assets/icon/icob btn.png"
+                                alt="btn icon"
+                            />
+                        </button>
+                        <button type="submit" class="button" id="saveChange">
                             <img
                                 src="assets/icon/icob btn.png"
                                 alt="btn icon"
@@ -45,7 +54,21 @@
         </div>
 
         <div id="context">
-            <div class="context_block">
+            <div class="context_block" id="context-block">
+                <a
+                    href="#"
+                    id="todo_done"
+                    style="display: none"
+                    class="context_block_btn"
+                    >Выполнено</a
+                >
+                <a
+                    href="#"
+                    id="not_completed_btn"
+                    style="display: none"
+                    class="context_block_btn"
+                    >Отменить</a
+                >
                 <a href="#" id="change_todo" class="context_block_btn"
                     >Изменить</a
                 >
